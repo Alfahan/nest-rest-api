@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ValidationError } from 'class-validator';
 import { CustomException } from './common/api-response/exceptions/custom-fabd.exception';
 import { errorMessageCode } from './common/api-response/consts/error-message-code';
-import Authentication from './middlewares/authentication';
+// import Authentication from './middlewares/authentication';
 
 async function bootstrap() {
 	// init service

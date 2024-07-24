@@ -1,18 +1,26 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm'; // Import TypeOrmModule
-import { AppConfig, DatabaseConfig, MinioConfig } from './configs';
+import { AppConfig, 
+	DatabaseConfig, 
+	// MinioConfig 
+} from './configs';
 
 import { NestMinioModule } from 'nestjs-minio';
 import { AppController } from './app.controller';
 import { TodoModule } from './modules/v4/todos/todos.module';
+import { UsersModule } from './modules/v4/users/users.module';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
 			cache: true,
-			load: [AppConfig, DatabaseConfig, MinioConfig],
+			load: [
+				AppConfig, 
+				DatabaseConfig, 
+				// MinioConfig
+			],
 			expandVariables: true,
 		}),
 		TypeOrmModule.forRootAsync({
@@ -22,15 +30,16 @@ import { TodoModule } from './modules/v4/todos/todos.module';
 			}),
 			inject: [ConfigService],
 		}),
-		NestMinioModule.registerAsync({
-			imports: [ConfigModule],
-			useFactory: (configService: ConfigService) => ({
-				...configService.get('minio'),
-			}),
-			isGlobal: true,
-			inject: [ConfigService],
-		}),
-		TodoModule
+		// NestMinioModule.registerAsync({
+		// 	imports: [ConfigModule],
+		// 	useFactory: (configService: ConfigService) => ({
+		// 		...configService.get('minio'),
+		// 	}),
+		// 	isGlobal: true,
+		// 	inject: [ConfigService],
+		// }),
+		TodoModule,
+		UsersModule
 	],
 	controllers: [AppController],
 	providers: [],

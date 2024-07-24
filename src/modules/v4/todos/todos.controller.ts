@@ -5,8 +5,6 @@ import { ApiResponse } from '@app/common/api-response';
 import { errorMessageCode } from '@app/common/api-response/consts/error-message-code';
 import { successMessageCode } from '@app/common/api-response/consts/success-message-code';
 
-
-
 @Controller({ path: 'todos', version: '4' })
 export class TodoController {
 	constructor(private readonly todoService: TodoService) {}
