@@ -91,18 +91,21 @@ export class UserService implements UserAbstract{
             age: age,
         }
 
-        const update = await this.userRepository.update(payload, {id: id});
+        const updateResult = await this.userRepository.update(id, payload);
 
-        return update
+        console.log(updateResult);
+
+        if (updateResult.affected === 0) {
+            throw new Error('Failed to update user');
+        }
+
+        return updateResult;
     }
 
     async read(req: any) {
         const id = req.params.id;
 
         const data = await this.userRepository.findById(id);
-
-        console.log(data);
-
         const result = {
             id: data.id,
             name: CryptoTs.decryptWithAes('AES_256_CBC', data.name),
