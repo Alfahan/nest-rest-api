@@ -3,11 +3,12 @@ import { UserAbstract } from "./users.abstract";
 import CryptoTs from "pii-agent-ts";
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
-import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from "./repositories/users.repository";
 import { User } from "@app/entities/user.entity";
-import { isEmpty, isNotEmpty } from "class-validator";
-import { error } from "console";
+import { isEmpty } from "class-validator";
+import { Request } from "express";
+import { Pagination } from "@app/utils/pagination";
+import { ParamsUser } from "./dto/paramUser.dto";
 
 @Injectable()
 export class UserService implements UserAbstract{
@@ -16,7 +17,7 @@ export class UserService implements UserAbstract{
         private userRepository: UserRepository
     ) {}
 
-    async create(req: any) {
+    async create(req: Request) {
         // // without aesCipher
         // const payload = new User();
         // payload.id = uuidv4();
@@ -63,7 +64,7 @@ export class UserService implements UserAbstract{
 
     }
 
-    async update(req: any) {
+    async update(req: Request) {
         const id = req.params.id;
         const find = await this.userRepository.findById(id);
 
@@ -102,19 +103,15 @@ export class UserService implements UserAbstract{
         return updateResult;
     }
 
-    async read(req: any) {
+    async read(req: Request) {
         const id = req.params.id;
-
-        const data = await this.userRepository.findById(id);
-        const result = {
-            id: data.id,
-            name: CryptoTs.decryptWithAes('AES_256_CBC', data.name),
-            email: CryptoTs.decryptWithAes('AES_256_CBC', data.email),
-            address: CryptoTs.decryptWithAes('AES_256_CBC', data.address),
-            age: data.age,
-            password: data.password
-        }
+        const result = await this.userRepository.findById(id);
         
+        return result;
+    }
+
+    async findAll(pagination: Pagination, params: ParamsUser) {
+        const result = await this.userRepository.findAll(pagination, params);
         return result;
     }
 }

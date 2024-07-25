@@ -55,7 +55,7 @@
 		"passport-custom": "^1.1.1",
 		"passport-jwt": "^4.0.1",
 		"pg": "^8.11.1",
-		"pii-agent-ts": "^1.2.15",
+		"pii-agent-ts": "^1.2.20",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "^7.8.1",
 		"typeorm-naming-strategies": "^4.1.0",
